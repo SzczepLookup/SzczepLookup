@@ -1,0 +1,23 @@
+{
+    "_EXP_BookMode": false,
+    "CoIleSekundSprawdzac" : 120,
+    "PushOverUserId": null,
+    "PushOverAppTokenId": null,
+    "MinimalnaIloscTerminowWTymSamymMiejscuICzasie": 1,
+    "DataOd": "2021-04-27",
+    "DataDo": "2021-05-31",
+    "GodzinaOd": "0:01",
+    "GodzinaDo": "23:59",
+    "GeoID": "1465011",
+    "WojewodztwoID": "14",
+    "NumerTelefonu": null,
+    "PunktID" : null,
+    "TelegramBotAccessToken" : null,
+    "Szczepionki": [
+        "cov19.pfizer",
+        "cov19.moderna"
+    ],
+    "VerbooseLogging" : false,
+    "WojewodztwoJesliNiemaWMiescie" : true,
+    "WszystkieSzczepionkiJesliBrakZFiltra" : false
+}

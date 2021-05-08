@@ -1,0 +1,8 @@
+.vscode
+bin
+obj
+*.txt
+*.xls*
+kolejne.json
+servicePoints.json
+*.bak
