@@ -1,5 +1,7 @@
 # SzczepLookup
 
+## Program działa w ramach Twojego konta na portalu do umawiania szczepień. Logujesz się do portalu, odpalasz program i podążasz z wskazówkami. Koniecznie doczytaj wzystko do końca. 
+
 1. Zainstalować **.net core SDK** z https://dotnet.microsoft.com/download . Windows/macOS/linux. Obecnie jest on w wersji 3.1 . Upewnij się że instalujesz **.NET Core** a nie .NET 5.0 lub .NET 6.0. 
 2. Pobrać zawartość repozytorium (zielony przycisk => Download ZIP) i wypakowac lub sklonowac (git clone https://github.com/SzczepLookup/SzczepLookup)
 3. Uruchomić linię poleceń (CMD/shell) i przejść do katalogu z wypakowanymi plikami (do tego gdzie jest plik program.cs i inne)
