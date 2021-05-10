@@ -264,12 +264,12 @@ namespace Pacjent_PLay
             {
                 if (terminy_wszystkie_szczep == null)
                 {
-                    message = DateTime.Now.ToShortTimeString() + " Brak terminow na (" + String.Join(",", cfg.Szczepionki) + ") na tą chwilę. Szukanie w wojewodztwie włączone: " + cfg.WojewodztwoJesliNiemaWMiescie.ToString() + " Wszystkie szczepionki: " + cfg.WszystkieSzczepionkiJesliBrakZFiltra.ToString();
+                    message = DateTime.Now.ToShortTimeString() + " Brak terminow na (" + String.Join(",", cfg.Szczepionki) + ") na tą chwilę";
                 }
                 else
                 {
                     var assigments2 = terminy_wszystkie_szczep.OrderBy(o => o.startAt).Distinct().ToList();
-                    message = DateTime.Now.ToShortTimeString() + " Brak terminow na (" + String.Join(",", cfg.Szczepionki) + ") na tą chwilę. Szukanie w wojewodztwie włączone: " + cfg.WojewodztwoJesliNiemaWMiescie.ToString() + " Wszystkie szczepionki: " + cfg.WszystkieSzczepionkiJesliBrakZFiltra.ToString() + ". Pierwszy termin bez filtra na szczepionki: " + assigments2[0].startAt + " " + assigments2[0].vaccineType;
+                    message = DateTime.Now.ToShortTimeString() + " Brak terminow na (" + String.Join(",", cfg.Szczepionki) + ") na tą chwilę"; 
                 }
                 Console.WriteLine(message);
             }
