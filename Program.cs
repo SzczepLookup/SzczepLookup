@@ -224,8 +224,9 @@ namespace Pacjent_PLay
             //messagePrefix = "W MIEŚCIE ";
             List<VisitToBook> terminy_wszystkie_szczep = null;
             List<VisitToBook> TerminySzczepienia = SendSearchRequest(cfg.DataOd, cfg.DataDo, cfg.WojewodztwoID, cfg.GeoID, SkierowanieID, null, cfg.Szczepionki, cfg.PunktID);
-            if (!cfg._EXP_BookMode & 1 == 0)
+            if (!cfg._EXP_BookMode)
             {
+                System.Threading.Thread.Sleep(1500);
                 ServicePointSearch SPS = new ServicePointSearch();
                 SPS.voiId = cfg.WojewodztwoID;
                 SPS.geoId = cfg.GeoID;
@@ -233,9 +234,13 @@ namespace Pacjent_PLay
                 {
                     NullValueHandling = NullValueHandling.Ignore
                 });
-                terminy_wszystkie_szczep = SendSearchRequest(cfg.DataOd, DataWygasnieciaSkierowania, cfg.WojewodztwoID, cfg.GeoID, SkierowanieID, null, null, cfg.PunktID);
                 string result = DoRequest("https://pacjent.erejestracja.ezdrowie.gov.pl/api/servicePoints/find", RequestBody, HttpMethod.Post, ExtraHeaders);
                 System.IO.File.WriteAllText("servicePoints.json", result);
+                
+            }
+            if (!cfg._EXP_BookMode & 1 == 0)
+            {
+                terminy_wszystkie_szczep = SendSearchRequest(cfg.DataOd, DataWygasnieciaSkierowania, cfg.WojewodztwoID, cfg.GeoID, SkierowanieID, null, null, cfg.PunktID);
                 TerminySzczepienia = SendSearchRequest(cfg.DataOd, DateTime.Parse(cfg.DataOd).AddDays(30).ToString("yyyy-MM-dd"), cfg.WojewodztwoID, cfg.GeoID, SkierowanieID, TerminySzczepienia, cfg.Szczepionki, cfg.PunktID);
                 TerminySzczepienia = SendSearchRequest(cfg.DataOd, DataWygasnieciaSkierowania, cfg.WojewodztwoID, cfg.GeoID, SkierowanieID, TerminySzczepienia, cfg.Szczepionki, cfg.PunktID);
                 if (TerminySzczepienia.Count > 0)
@@ -269,7 +274,7 @@ namespace Pacjent_PLay
                 else
                 {
                     var assigments2 = terminy_wszystkie_szczep.OrderBy(o => o.startAt).Distinct().ToList();
-                    message = DateTime.Now.ToShortTimeString() + " Brak terminow na (" + String.Join(",", cfg.Szczepionki) + ") na tą chwilę"; 
+                    message = DateTime.Now.ToShortTimeString() + " Brak terminow na (" + String.Join(",", cfg.Szczepionki) + ") na tą chwilę";
                 }
                 Console.WriteLine(message);
             }
