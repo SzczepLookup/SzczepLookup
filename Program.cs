@@ -149,7 +149,7 @@ namespace Pacjent_PLay
                     }
                     else
                     {
-                        Console.WriteLine(message);
+                        Console.WriteLine("Sesja do portalu szczepień wygasla");
                         Environment.Exit(0);
 
                     }
