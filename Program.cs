@@ -207,6 +207,7 @@ namespace Pacjent_PLay
             }
             //RunMe = false;
             //Console.ReadLine();
+            //Environment.Exit();
             if (RunMe)
             {
                 if (!cfg.NoHttpCapture)
@@ -322,8 +323,8 @@ namespace Pacjent_PLay
                     {
                         SendPushMessage(cfg.PushOverUserId, cfg.PushOverAppTokenId, "Covid-szczepienia", "Sprawdz czy próba rezerwacji terminu powiodła się");
                         Console.WriteLine("==> Push wyslany");
-                        Environment.Exit(0);
                     }
+                    Environment.Exit(0);
                 }
 
                 if ((visit.startAt).Date <= DateTime.Parse(cfg.DataDo).Date)
