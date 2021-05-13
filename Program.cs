@@ -138,14 +138,21 @@ namespace Pacjent_PLay
                     if (cfg.PushOverUserId != null)
                     {
                         message = "Czekam na zalogowanie do portalu szczepien";
-                        SendPushMessage(cfg.PushOverUserId, cfg.PushOverAppTokenId, "Covid-szczepienia", "Zaloguj się do szczepien");
+                        SendPushMessage(cfg.PushOverUserId, cfg.PushOverAppTokenId, "Covid-szczepienia", "Sesja do portalu szczepień wygasla");
                     }
+                    if (!cfg.NoHttpCapture)
+                    {
+                        Console.WriteLine("Sesja wygasła. Zaloguj się na https://pacjent.erejestracja.ezdrowie.gov.pl/wizyty i wciśnij enter");
+                        Console.ReadLine();
+                        DoCapture();
+                        result = DoRequest("https://pacjent.erejestracja.ezdrowie.gov.pl/api/calendarSlots/find", RequestBody, HttpMethod.Post, ExtraHeaders);
+                    }
+                    else
+                    {
+                        Console.WriteLine(message);
+                        Environment.Exit(0);
 
-                    Console.WriteLine("Sesja wygasła. Zaloguj się na https://pacjent.erejestracja.ezdrowie.gov.pl/wizyty i wciśnij enter");
-                    Console.ReadLine();
-                    DoCapture();
-                    result = DoRequest("https://pacjent.erejestracja.ezdrowie.gov.pl/api/calendarSlots/find", RequestBody, HttpMethod.Post, ExtraHeaders);
-
+                    }
                 }
             }
             List<VisitToBook> d2 = JsonConvert.DeserializeObject<VisitsRoot>(result).list;
@@ -202,11 +209,27 @@ namespace Pacjent_PLay
             //Console.ReadLine();
             if (RunMe)
             {
-                Console.WriteLine("Odśwież przeglądarce: https://pacjent.erejestracja.ezdrowie.gov.pl/wizyty  , zaloguj się (jeśli trzeba) i wciśnij enter");
-                //Console.WriteLine();
-                Console.ReadLine();
+                if (!cfg.NoHttpCapture)
+                {
+                    Console.WriteLine("Odśwież przeglądarce: https://pacjent.erejestracja.ezdrowie.gov.pl/wizyty  , zaloguj się (jeśli trzeba) i wciśnij enter");
+                    //Console.WriteLine();
+                    Console.ReadLine();
 
-                DoCapture();
+                    DoCapture();
+                }
+                else
+                {
+                    if (cfg.PrescriptionID ==null | cfg.PatientSID==null | cfg.XCsrfToken==null ) {
+                        Console.WriteLine("Tryb http capture wylaczony ale nie podane wszystkich danych. Sprawdź plik configuracyjny i spróbuj ponownie");
+                        Environment.Exit(0);
+                    }
+                    SkierowanieID = cfg.PrescriptionID;
+                    DataWygasnieciaSkierowania = cfg.DataWygasnieciaSkierowania;
+                    ExtraHeaders.Clear();
+                    ExtraHeaders.Add(new KeyValuePair<string, string>("X-Csrf-Token", cfg.XCsrfToken));
+                    ExtraHeaders.Add(new KeyValuePair<string, string>("Cookie", "patient_sid=" + cfg.PatientSID));
+
+                }
             }
             do
             {
@@ -236,7 +259,7 @@ namespace Pacjent_PLay
                 });
                 string result = DoRequest("https://pacjent.erejestracja.ezdrowie.gov.pl/api/servicePoints/find", RequestBody, HttpMethod.Post, ExtraHeaders);
                 System.IO.File.WriteAllText("servicePoints.json", result);
-                
+
             }
             if (!cfg._EXP_BookMode & 1 == 0)
             {
@@ -299,6 +322,7 @@ namespace Pacjent_PLay
                     {
                         SendPushMessage(cfg.PushOverUserId, cfg.PushOverAppTokenId, "Covid-szczepienia", "Sprawdz czy próba rezerwacji terminu powiodła się");
                         Console.WriteLine("==> Push wyslany");
+                        Environment.Exit(0);
                     }
                 }
 

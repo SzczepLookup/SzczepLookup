@@ -19,5 +19,9 @@
     ],
     "VerbooseLogging" : false,
     "WojewodztwoJesliNiemaWMiescie" : true,
-    "WszystkieSzczepionkiJesliBrakZFiltra" : false
+    "WszystkieSzczepionkiJesliBrakZFiltra" : false,
+    "NoHttpCapture" : false,
+    "XCsrfToken" : null,
+    "PatientSID" : null,
+    "PrescriptionID" : null
 }

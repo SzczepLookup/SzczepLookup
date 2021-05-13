@@ -1,6 +1,6 @@
 # SzczepLookup
 
-## Program działa w ramach Twojego konta na portalu do umawiania szczepień. Logujesz się do portalu, odpalasz program i podążasz z wskazówkami. Koniecznie doczytaj wzystko do końca. 
+## Program działa w ramach Twojego konta na portalu do umawiania szczepień. Logujesz się do portalu, odpalasz program i podążasz z wskazówkami. Koniecznie doczytaj wzystko do końca. Jeśli nie chcesz by program sam przechwycił te dane z przeglądarki, możesz uzyskać i wprowadzić te informacje samodzielnie. Skróconą instrukcję znajdziesz pod koniec niniejszego Readme
 
 1. Zainstalować **.net core SDK** z https://dotnet.microsoft.com/download . Windows/macOS/linux. Obecnie jest on w wersji 3.1 . Upewnij się że instalujesz **.NET Core** a nie .NET 5.0 lub .NET 6.0. 
 2. Pobrać zawartość repozytorium (zielony przycisk => Download ZIP) i wypakowac lub sklonowac (git clone https://github.com/SzczepLookup/SzczepLookup)
@@ -41,8 +41,25 @@
 * WszystkieSzczepionkiJesliBrakZFiltra - jeśli chcesz szukać wszyskitch szczepionek, jeśli nie znaleziono tych co chcesz. Domyślnie wyłączone
    - W przypadku ustawienia obu, powyższych opcji, szukanie w Województwie jest przeprowadzane przed szukaniem wszystkich szczepionek
 
+# Praca w ramach wprowadzonych danych sesji logowania
+Jeśl masz obawy co do działania programu , możesz przejrzeć, zawarty kod źródłowy. Masz też możliwość wyłączenia trybu przechwycena seji http do Portalu Szczepień i wproadzenia danych sesji w sposób ręczny. Domyślnie program przechwytuje sesję przeglądrki i stamtąd wyciąga potrzebne dane. 
+Do wykonywania zapytań i żądań do Portalu szczepień, potrzebne są : token , id pacjenta or id skierowania. Aby je wprowadzić i przestawić program w tryb takiej pracy, należy :
+1. Zalogować się do portalu szczepień w przeglądarce
+2. Włączyć Tryb Dewelopera (najczęściej skrótem klawiszowym F12)
+3. W trybie deweloperskim przejść do zakładki Network (Sieć)
+4. W Edge /Chrome sugeruję kliknąć też na XHR , aby ułatwić znalezienie właściwego wpisu
+5. Odświeżyć (F5) stronę Portalu pacjenta (PO ZALOGOWANIU)
+6. Znaleźć GUID w kolumnie Name (Nazwa) lub tekst zaczynący się od https://pacjent.erejestracja.ezdrowie.gov.pl/api/patient w kolumnie Url
+7. Kliknąć na znaleziony wiersz w kolumnie Name (Nazwa)
+8. W prawej części okna kliknąć na Headers (Nagłówki) i znaleźć tam wartości po :
+   - x-csrf-token:
+   - cookie: patiens_sid=
+9. W prawej częsci okna kliknąć na Response (Odpowiedź) i znaleźć prescriptions i skopiować guid po ID
+10. Wprowadzić te 3 znalezione wartości, tylko GUIDy, to pliku konfiguracyjne
+11. W pliku konfiguracjnym przełączyć program na tryb pracy bez przechwytywania sesji http () : NoHttpCapture ustawić na true
 
-Sesja logowanie do portalu Ezdrowie ma ważność (na dzień 1go maja) maksymalnie 12 godzin. Czasem mniej, jak Portal ma zmiany. Oznacza to, że program poprosi o ponowne zalogowanie do portalu , gdy sesja wygaśnie. s
+
+Sesja logowanie do portalu Ezdrowie ma ważność (na dzień 1go maja) maksymalnie 12 godzin. Czasem mniej, jak Portal ma zmiany. Oznacza to, że program poprosi o ponowne zalogowanie do portalu , gdy sesja wygaśnie. 
 
 Moje skierowanie traci ważność z końcem czerwca. Po tym dniu nie będę jak miał testować tego programu. 
 

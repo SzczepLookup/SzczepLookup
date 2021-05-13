@@ -71,6 +71,11 @@ public class VisitsRoot {
         public bool VerbooseLogging =  false;
         public bool WojewodztwoJesliNiemaWMiescie = true;
         public bool WszystkieSzczepionkiJesliBrakZFiltra = false;
+        public bool NoHttpCapture = false;
+        public string XCsrfToken = null;
+        public string PatientSID  = null;
+        public string PrescriptionID = null;
+        public string DataWygasnieciaSkierowania ="2021-12-31";
         
     }
 
