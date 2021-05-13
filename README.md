@@ -41,6 +41,13 @@
 * WszystkieSzczepionkiJesliBrakZFiltra - jeśli chcesz szukać wszyskitch szczepionek, jeśli nie znaleziono tych co chcesz. Domyślnie wyłączone
    - W przypadku ustawienia obu, powyższych opcji, szukanie w Województwie jest przeprowadzane przed szukaniem wszystkich szczepionek
 
+Sesja logowanie do portalu Ezdrowie ma ważność (na dzień 1go maja) maksymalnie 12 godzin. Czasem mniej, jak Portal ma zmiany. Oznacza to, że program poprosi o ponowne zalogowanie do portalu , gdy sesja wygaśnie. 
+
+Moje skierowanie traci ważność z końcem czerwca. Po tym dniu nie będę jak miał testować tego programu. 
+
+POWODZENIA! Dawaj znać co i jak !, np tu: https://github.com/SzczepLookup/SzczepLookup/issues 
+   
+
 # Praca w ramach wprowadzonych danych sesji logowania
 Jeśl masz obawy co do działania programu , możesz przejrzeć, zawarty kod źródłowy. Masz też możliwość wyłączenia trybu przechwycena seji http do Portalu Szczepień i wproadzenia danych sesji w sposób ręczny. Domyślnie program przechwytuje sesję przeglądrki i stamtąd wyciąga potrzebne dane. 
 Do wykonywania zapytań i żądań do Portalu szczepień, potrzebne są : token , id pacjenta or id skierowania. Aby je wprowadzić i przestawić program w tryb takiej pracy, należy :
@@ -59,9 +66,4 @@ Do wykonywania zapytań i żądań do Portalu szczepień, potrzebne są : token 
 11. W pliku konfiguracjnym przełączyć program na tryb pracy bez przechwytywania sesji http () : NoHttpCapture ustawić na true
 
 
-Sesja logowanie do portalu Ezdrowie ma ważność (na dzień 1go maja) maksymalnie 12 godzin. Czasem mniej, jak Portal ma zmiany. Oznacza to, że program poprosi o ponowne zalogowanie do portalu , gdy sesja wygaśnie. 
 
-Moje skierowanie traci ważność z końcem czerwca. Po tym dniu nie będę jak miał testować tego programu. 
-
-POWODZENIA! Dawaj znać co i jak !, np tu: https://github.com/SzczepLookup/SzczepLookup/issues 
-   
