@@ -111,7 +111,7 @@ namespace Pacjent_PLay
 
         }
 
-        public static List<VisitToBook> SendSearchRequest(string DateFrom, string DateMax, string WojewodztwoID, string GeoID, string SkierowanieID, List<VisitToBook> Lista, List<string> Szczepionki = null, string PunktId = null)
+        public static List<VisitToBook> SendSearchRequest(string DateFrom, string DateMax, string WojewodztwoID, string GeoID, string SkierowanieID, List<VisitToBook> Lista, List<string> Szczepionki = null, string PunktId = null, string postalCode =null, string distanceRangeCode = null)
         {
             string RequestBody = "";
             SearchData searchData = new SearchData();
@@ -121,6 +121,12 @@ namespace Pacjent_PLay
             searchData.hourRange.to = cfg.GodzinaDo;
             searchData.geoId = GeoID;
             searchData.voiId = WojewodztwoID;
+            if (distanceRangeCode != null & postalCode != null) {
+                searchData.geoId =null;
+                searchData.voiId = null;
+                searchData.distanceRangeCode = distanceRangeCode;
+                searchData.postalCode = postalCode;
+            }
             searchData.prescriptionId = SkierowanieID;
             searchData.servicePointid = PunktId;
             searchData.vaccineTypes = Szczepionki;
@@ -247,7 +253,7 @@ namespace Pacjent_PLay
         {
             //messagePrefix = "W MIEŚCIE ";
             List<VisitToBook> terminy_wszystkie_szczep = null;
-            List<VisitToBook> TerminySzczepienia = SendSearchRequest(cfg.DataOd, cfg.DataDo, cfg.WojewodztwoID, cfg.GeoID, SkierowanieID, null, cfg.Szczepionki, cfg.PunktID);
+            List<VisitToBook> TerminySzczepienia = SendSearchRequest(cfg.DataOd, cfg.DataDo, cfg.WojewodztwoID, cfg.GeoID, SkierowanieID, null, cfg.Szczepionki, cfg.PunktID, cfg.postalCode, cfg.distanceRangeCode);
             if (!cfg._EXP_BookMode)
             {
                 System.Threading.Thread.Sleep(1500);
@@ -264,29 +270,29 @@ namespace Pacjent_PLay
             }
             if (!cfg._EXP_BookMode & 1 == 0)
             {
-                terminy_wszystkie_szczep = SendSearchRequest(cfg.DataOd, DataWygasnieciaSkierowania, cfg.WojewodztwoID, cfg.GeoID, SkierowanieID, null, null, cfg.PunktID);
-                TerminySzczepienia = SendSearchRequest(cfg.DataOd, DateTime.Parse(cfg.DataOd).AddDays(30).ToString("yyyy-MM-dd"), cfg.WojewodztwoID, cfg.GeoID, SkierowanieID, TerminySzczepienia, cfg.Szczepionki, cfg.PunktID);
-                TerminySzczepienia = SendSearchRequest(cfg.DataOd, DataWygasnieciaSkierowania, cfg.WojewodztwoID, cfg.GeoID, SkierowanieID, TerminySzczepienia, cfg.Szczepionki, cfg.PunktID);
+                terminy_wszystkie_szczep = SendSearchRequest(cfg.DataOd, DataWygasnieciaSkierowania, cfg.WojewodztwoID, cfg.GeoID, SkierowanieID, null, null, cfg.PunktID,cfg.postalCode, cfg.distanceRangeCode);
+                TerminySzczepienia = SendSearchRequest(cfg.DataOd, DateTime.Parse(cfg.DataOd).AddDays(30).ToString("yyyy-MM-dd"), cfg.WojewodztwoID, cfg.GeoID, SkierowanieID, TerminySzczepienia, cfg.Szczepionki, cfg.PunktID,cfg.postalCode, cfg.distanceRangeCode);
+                TerminySzczepienia = SendSearchRequest(cfg.DataOd, DataWygasnieciaSkierowania, cfg.WojewodztwoID, cfg.GeoID, SkierowanieID, TerminySzczepienia, cfg.Szczepionki, cfg.PunktID,cfg.postalCode, cfg.distanceRangeCode);
                 if (TerminySzczepienia.Count > 0)
                 {
                     var DateMaxFound = TerminySzczepienia.Max(dd => dd.startAt);
-                    TerminySzczepienia = SendSearchRequest(DateMaxFound.AddDays(1).ToString("yyyy-MM-dd"), DateMaxFound.AddDays(30).ToString("yyyy-MM-dd"), cfg.WojewodztwoID, cfg.GeoID, SkierowanieID, TerminySzczepienia, cfg.Szczepionki, cfg.PunktID);
+                    TerminySzczepienia = SendSearchRequest(DateMaxFound.AddDays(1).ToString("yyyy-MM-dd"), DateMaxFound.AddDays(30).ToString("yyyy-MM-dd"), cfg.WojewodztwoID, cfg.GeoID, SkierowanieID, TerminySzczepienia, cfg.Szczepionki, cfg.PunktID,cfg.postalCode, cfg.distanceRangeCode);
                 }
                 if (TerminySzczepienia.Count == 0 & cfg.WojewodztwoJesliNiemaWMiescie)
                 {
                     //messagePrefix = "W WOJEWÓDZTWIE ";
-                    TerminySzczepienia = SendSearchRequest(cfg.DataOd, DateTime.Parse(cfg.DataOd).AddDays(28).ToString("yyyy-MM-dd"), cfg.WojewodztwoID, null, SkierowanieID, TerminySzczepienia, cfg.Szczepionki, cfg.PunktID);
+                    TerminySzczepienia = SendSearchRequest(cfg.DataOd, DateTime.Parse(cfg.DataOd).AddDays(28).ToString("yyyy-MM-dd"), cfg.WojewodztwoID, null, SkierowanieID, TerminySzczepienia, cfg.Szczepionki, cfg.PunktID,cfg.postalCode, cfg.distanceRangeCode);
                 }
                 if (TerminySzczepienia.Count == 0 & cfg.WszystkieSzczepionkiJesliBrakZFiltra)
                 {
                     //messagePrefix = "W WOJEWÓDZTWIE ";
-                    TerminySzczepienia = SendSearchRequest(cfg.DataOd, DateTime.Parse(cfg.DataOd).AddDays(28).ToString("yyyy-MM-dd"), cfg.WojewodztwoID, cfg.GeoID, SkierowanieID, TerminySzczepienia, null, cfg.PunktID);
+                    TerminySzczepienia = SendSearchRequest(cfg.DataOd, DateTime.Parse(cfg.DataOd).AddDays(28).ToString("yyyy-MM-dd"), cfg.WojewodztwoID, cfg.GeoID, SkierowanieID, TerminySzczepienia, null, cfg.PunktID,cfg.postalCode, cfg.distanceRangeCode);
                 }
 
                 if (TerminySzczepienia.Count == 0 & cfg.WojewodztwoJesliNiemaWMiescie & cfg.WszystkieSzczepionkiJesliBrakZFiltra)
                 {
                     //messagePrefix = "W WOJEWÓDZTWIE ";
-                    TerminySzczepienia = SendSearchRequest(cfg.DataOd, DateTime.Parse(cfg.DataOd).AddDays(28).ToString("yyyy-MM-dd"), cfg.WojewodztwoID, null, SkierowanieID, TerminySzczepienia, null, cfg.PunktID);
+                    TerminySzczepienia = SendSearchRequest(cfg.DataOd, DateTime.Parse(cfg.DataOd).AddDays(28).ToString("yyyy-MM-dd"), cfg.WojewodztwoID, null, SkierowanieID, TerminySzczepienia, null, cfg.PunktID,cfg.postalCode, cfg.distanceRangeCode);
                 }
             }
             if (TerminySzczepienia.Count == 0)

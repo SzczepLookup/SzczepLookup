@@ -38,6 +38,8 @@
 * TelegramBotAccessToken - jeśli chcesz aby programik chodził w formie bota do Telegrama. Aby uzyskać własnego bota, napisz na Telegramie do BotFather . 
 * VerbooseLogging - jeśli chcesz widzieć zapytania i odpowiedzi JSON do/z serwisu. Domyślnie wyłączone
 * WojewodztwoJesliNiemaWMiescie - jeśli (nie)chcesz szukać w województwie, jeśli w mieście nie ma. Domyślnie włączone
+* postalCode: kod pocztowy od którego można szukać odległościowo
+* distanceRangeCode: jak daleko od kodu pocztowego szukać, "distanceRange0_5". Musza być podane oba, powyższe, parametry
 * WszystkieSzczepionkiJesliBrakZFiltra - jeśli chcesz szukać wszyskitch szczepionek, jeśli nie znaleziono tych co chcesz. Domyślnie wyłączone
    - W przypadku ustawienia obu, powyższych opcji, szukanie w Województwie jest przeprowadzane przed szukaniem wszystkich szczepionek
 

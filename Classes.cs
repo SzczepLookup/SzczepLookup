@@ -22,6 +22,8 @@ using System.Collections.Generic;
         public string geoId ;
         public List<string> vaccineTypes;
         public string servicePointid = null;
+        public string postalCode = "01-010";
+        public string distanceRangeCode = "distanceRange0_5";
     }
     public class ServicePointSearch {
         public string voiId ;
@@ -76,6 +78,8 @@ public class VisitsRoot {
         public string PatientSID  = null;
         public string PrescriptionID = null;
         public string DataWygasnieciaSkierowania ="2021-12-31";
+        public string postalCode = "01-010";
+        public string distanceRangeCode = "distanceRange0_5";
         
     }
 
